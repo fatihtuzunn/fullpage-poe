@@ -1,5 +1,19 @@
 <template>
     <div id="app">
+
+        <transition name="fade">
+        <div v-if="loadShow" id="preloader">
+            <div id="status">
+                <div class="spinner">
+                    <div class="rect1"></div>
+                    <div class="rect2"></div>
+                    <div class="rect3"></div>
+                    <div class="rect4"></div>
+                    <div class="rect5"></div>
+                </div>
+            </div>
+        </div>
+        </transition>
         <!--  <ul id="menu">
             <li data-menuanchor="page1" class="active"><a href="#page1">Section 1</a></li>
             <li data-menuanchor="page2"><a href="#page2">Section 2</a></li>
@@ -70,15 +84,15 @@
             </div>
 
             <div class="section">
-                
+
                 <div class="introduction">
-                    <h4><strong>İngilizce Aslı:</strong>  Annabel Lee / Edgar Allan Poe</h4>
+                    <h4><strong>İngilizce Aslı:</strong> Annabel Lee / Edgar Allan Poe</h4>
                     <p>- Çeviri : Melih Cevdet Anday</p>
-                    
+
 
                     <a href="https://www.github.com/fatihtuzunn" class="btn"> GitHub</a>
 
-                    <p class="footer">Made  with <i>fullPage.js</i> and <i>Midjourney</i> </p>
+                    <p class="footer">Made with <i>fullPage.js</i> and <i>Midjourney</i> </p>
                 </div>
 
             </div>
@@ -99,6 +113,7 @@ export default {
     name: 'app',
     data() {
         return {
+            loadShow:true,
             options: {
                 licenseKey: 'YOUR_KEY_HERE',
                 afterLoad: this.afterLoad,
@@ -107,7 +122,7 @@ export default {
                 menu: '#menu',
 
                 navigation: true,
-                anchors: ['page1', 'page2', 'page3', 'page4',"page5"],
+                anchors: ['page1', 'page2', 'page3', 'page4', "page5"],
                 sectionsColor: ['#41b883', '#ff5f45', '#0798ec', '#fec401', '#12242A']
 
             }
@@ -115,9 +130,12 @@ export default {
     },
     mounted() {
         fullpage_api.setKeyboardScrolling(true)
+        this.loadShow=!this.loadShow;
 
     },
+    
     methods: {
+       
         /* 
               afterLoad () {
                 console.log('After load')
@@ -188,29 +206,30 @@ body {
 
 }
 
-.introduction{
+.introduction {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 25px;
     text-align: center;
     color: #f1f1f1;
 }
 
-.introduction > .btn{
+.introduction>.btn {
     font-size: 15px;
     background-color: #eee;
     display: inline-block;
-    width: 5rem ;
+    width: 5rem;
     height: 2rem;
     border-radius: 5rem;
     border: none;
     padding: .4rem;
-    margin-top:5rem ;
+    margin-top: 5rem;
 }
-.introduction > .btn:hover{
+
+.introduction>.btn:hover {
     box-shadow: 2px 4px 6px rgba(153, 142, 142, 0.5);
 }
 
-.footer{
+.footer {
     font-size: 15px;
     display: block;
     position: relative;
@@ -297,6 +316,94 @@ body {
     display: block;
 }
 
+/* PRELOADER */
+
+#preloader {
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+     background: #2c3e50 ; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: 100%;
+    z-index:99; /* makes sure it stays on top */
+}
+
+#status {
+    width:50px;
+    height:30px;
+    position:fixed;
+    left:50%; /* centers the loading animation horizontally one the screen */
+    top:50%; /* centers the loading animation vertically one the screen */
+   margin:-25px 0 0 -15px; /* is width and height divided by two */
+}
+
+.spinner {
+  margin: 0px auto;
+  width: 50px;
+  height: 30px;
+  text-align: center;
+  font-size: 10px;
+}
+
+.spinner > div {
+  background-color: #fff;
+  height: 100%;
+  width: 6px;
+  display: inline-block;
+  
+  -webkit-animation: stretchdelay 1.2s infinite ease-in-out;
+  animation: stretchdelay 1.2s infinite ease-in-out;
+}
+
+.spinner .rect2 {
+  -webkit-animation-delay: -1.1s;
+  animation-delay: -1.1s;
+}
+
+.spinner .rect3 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+.spinner .rect4 {
+  -webkit-animation-delay: -0.9s;
+  animation-delay: -0.9s;
+}
+
+.spinner .rect5 {
+  -webkit-animation-delay: -0.8s;
+  animation-delay: -0.8s;
+}
+
+@-webkit-keyframes stretchdelay {
+  0%, 40%, 100% { -webkit-transform: scaleY(0.4) }  
+  20% { -webkit-transform: scaleY(1.0) }
+}
+
+@keyframes stretchdelay {
+  0%, 40%, 100% { 
+    transform: scaleY(0.4);
+    -webkit-transform: scaleY(0.4);
+  }  20% { 
+    transform: scaleY(1.0);
+    -webkit-transform: scaleY(1.0);
+  }
+}
+
+/* Transition */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
 
 
 </style>
